@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,24 +7,44 @@ on:
     branches: [ main, master ]
 
 jobs:
-  test:
+  build-and-test:
+    name: Compilación y Pruebas
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ['3.11', '3.10']
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Configurar Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: Preparar entorno e instalar dependencias (Build)
         run: |
           python -m pip install --upgrade pip
 
-      - name: Run tests
+      - name: Ejecutar pruebas unitarias (Test)
         run: |
           python -m unittest discover -s tests -v
+
+  deploy-simulation:
+    name: Despliegue Simulado
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el repositorio para empaquetado
+        uses: actions/checkout@v4
+
+      - name: Simular despliegue a entorno de Staging
+        run: |
+          echo "=================================================="
+          echo "🚀 INICIANDO DESPLIEGUE SIMULADO"
+          echo "📦 Verificando artefactos y código empaquetado..."
+          echo "🌐 Simulando transferencia a servidor de Staging..."
+          echo "✅ ¡Despliegue completado con éxito en Staging!"
+          echo "=================================================="
