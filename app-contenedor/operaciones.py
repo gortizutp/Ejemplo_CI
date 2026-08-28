@@ -1,5 +1,10 @@
-def sumar(a, b):
-    return a + b
+
+#def sumar(a,b):
+def sumar(a: int, b: int) -> int:
+    resultado = a + b
+    print("Suma 2 + 3 = {}".format(resultado))
+    return resultado
+
 
 
 def restar(a, b):
@@ -13,7 +18,7 @@ def multiplicar(a, b):
 def dividir(a, b):
     if b == 0:
         raise ValueError("No se puede dividir entre cero")
-    return a / b
+    return float(a) / float(b)  
 
 
 def es_primo(n):
@@ -27,7 +32,7 @@ def es_primo(n):
 
 def factorial(n):
     if n < 0:
-        raise ValueError("No existe factorial de un número negativo")
+        raise ValueError("No existe factorial de un numero negativo")
     resultado = 1
     for i in range(2, n + 1):
         resultado *= i
@@ -35,9 +40,11 @@ def factorial(n):
 
 
 if __name__ == "__main__":
-    print("Suma 2 + 3 =", sumar(2, 3))
-    print("Resta 5 - 2 =", restar(5, 2))
-    print("Multiplicación 4 * 3 =", multiplicar(4, 3))
-    print("División 10 / 2 =", dividir(10, 2))
-    print("¿Es 7 primo?", es_primo(7))
-    print("Factorial de 5 =", factorial(5))
+    
+    sumar(2, 3)
+    
+  
+    print("Resta 5 - 2 = {}".format(restar(5, 2)))
+    print("Multiplicacion 4 * 3 = {}".format(multiplicar(4, 3)))
+    print("Division 10 / 2 = {}".format(dividir(10, 2)))
+    print("Factorial de 5 = {}".format(factorial(5)))
