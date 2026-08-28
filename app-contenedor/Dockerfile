@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Ejecutar la prueba unitaria durante la construcción de la imagen
-RUN python -m unittest test_mensaje.py
+RUN python -m unittest discover -s tests
 
 # Comando por defecto al iniciar el contenedor
-CMD ["python", "mensaje.py"]
+CMD ["python", "operaciones.py"]
