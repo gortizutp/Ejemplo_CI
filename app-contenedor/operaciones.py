@@ -1,7 +1,7 @@
 
 #def sumar(a,b):
 def sumar(a: int, b: int) -> int:
-    resultado = a - b
+    resultado = a + b
     print("Suma 2 + 3 = {}".format(resultado))
     return resultado
 
