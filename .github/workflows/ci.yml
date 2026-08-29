@@ -1,50 +1,27 @@
-name: CI/CD Pipeline
+name: Pipeline CI/CD con Docker
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ "main" ]
 
 jobs:
   build-and-test:
-    name: Compilación y Pruebas
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.11', '3.10']
 
     steps:
+      # Step 1: Descarga el código del repositorio en la máquina virtual de GitHub
       - name: Descargar el repositorio
         uses: actions/checkout@v4
 
-      - name: Configurar Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Preparar entorno e instalar dependencias (Build)
+      # Step 2: Construye la imagen de Docker (Ejecuta las pruebas unitarias dentro del Dockerfile)
+      - name: Construir imagen de Docker y ejecutar pruebas
         run: |
-          python -m pip install --upgrade pip
+          cd app-contenedor
+          docker build -t operaciones:v1 .
 
-      - name: Ejecutar pruebas unitarias (Test)
+      # Step 3: Probar la ejecución del contenedor
+      - name: Probar ejecución del contenedor
         run: |
-          python -m unittest discover -s tests -v
-
-  deploy-simulation:
-    name: Despliegue Simulado
-    needs: build-and-test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Descargar el repositorio para empaquetado
-        uses: actions/checkout@v4
-
-      - name: Simular despliegue a entorno de Staging
-        run: |
-          echo "=================================================="
-          echo "🚀 INICIANDO DESPLIEGUE SIMULADO"
-          echo "📦 Verificando artefactos y código empaquetado..."
-          echo "🌐 Simulando transferencia a servidor de Staging..."
-          echo "✅ ¡Despliegue completado con éxito en Staging!"
-          echo "=================================================="
+          docker run --rm operaciones:v1
